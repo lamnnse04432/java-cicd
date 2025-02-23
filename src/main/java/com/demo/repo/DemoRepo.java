@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-//@Repository
+@Repository
 public interface DemoRepo extends JpaRepository<TestEntity, Long> {
 
     List<TestEntity> findAll();

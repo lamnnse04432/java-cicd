@@ -4,30 +4,31 @@ networks:
   demo-net:
     driver: bridge
     name: demo
-volumes:
-  demo_mssql:
 
 services:
-  db:
-    image: mcr.microsoft.com/mssql/server:2017-latest.
-    container_name: c-mssql
+  db_mysql:
+    image: mysql:8.4.3
+    container_name: c-mysql
     ports:
-      - "1433:1433"
+      - "3306:3306"
     volumes:
-      - demo_mssql:/var/opt/mssql
+      - ./init_db:/docker-entrypoint-initdb.d
     environment:
-      ACCEPT_EULA: Y
-      SA_PASSWORD: Admin1234
+      MYSQL_ROOT_PASSWORD: admin
     networks:
       - demo-net
-  service-demo:
+  service:
     depends_on:
-      - db
+      - db_mysql
+    environment:
+      SPRING_CONFIG_LOCATION: /project/config/application.properties
     build:
       context: .
-    container_name: demo-java
+    container_name: c-java
     ports:
       - "8080:8080"
+    volumes:
+      - ./config:/project/config
     networks:
       - demo-net
 

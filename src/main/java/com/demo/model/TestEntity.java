@@ -4,9 +4,9 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-//@Data
-//@Entity
-//@Table(name = "test")
+@Data
+@Entity
+@Table(name = "employee")
 public class TestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
