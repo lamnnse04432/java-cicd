@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Build stage') {
             steps {
-                withDockerRegistry( url: 'https://index.docker.io/v1/') {
+                withDockerRegistry(url: 'https://index.docker.io/v1/') {
                     sh 'docker build -t lamnn1996/app-cicd:1.0.0 .'
                     sh 'docker push lamnn1996/app-cicd:1.0.0'
                     // some block
