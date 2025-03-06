@@ -27,5 +27,8 @@ public class DemoController {
         return new ResponseEntity<String>("hello", HttpStatus.OK);
     }
 
- 
+    @GetMapping("/test")
+    public ResponseEntity<List<TestEntity>> test() throws Exception {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    }
 }
