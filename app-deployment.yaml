@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  app-deployment
+  labels:
+    app: app-demo-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-service
+  template:
+    metadata:
+      labels:
+        app: app-service
+    spec:
+      containers:
+      - name: app-service
+        image: lamnn1996/app-service:1.0.0
+        ports:
+        - containerPort: 8080
+        env:
+         - name: SPRING_CONFIG_LOCATION
+           value: /project/config/application.properties
+        volumeMounts:
+          - name: init-config
+            mountPath: /project/config
+      volumes:
+        - name: init-config
+          configMap: 
+            name: init-config
