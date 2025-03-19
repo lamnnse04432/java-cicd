@@ -37,7 +37,7 @@ RUN mvn clean package
 
 FROM openjdk:8-jre-alpine
 RUN mkdir /project
-COPY --from=build /app/demo-0.0.1-SNAPSHOT.jar /project/
+COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar /project/
 WORKDIR /project
 RUN mkdir /config
 CMD java -jar demo-0.0.1-SNAPSHOT.jar
