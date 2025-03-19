@@ -1,9 +1,8 @@
 FROM maven:3-openjdk-8 AS build
 RUN mkdir /usr/src/project
 COPY . /usr/src/project
-RUN mvn dependency:go-offline
 WORKDIR /usr/src/project
-
+RUN mvn dependency:go-offline
 RUN mvn -o clean package -DskipTests
 
 FROM openjdk:8-jre-alpine
