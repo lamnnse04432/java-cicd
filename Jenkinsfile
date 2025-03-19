@@ -28,7 +28,7 @@ pipeline {
                                             docker pull ${DOCKER_IMAGE} # Kéo image từ Docker Registry
                                             docker stop ${DOCKER_IMAGE} || true # Dừng container cũ nếu có
                                             docker rm ${DOCKER_IMAGE} || true # Xóa container cũ nếu có
-                                            docker run -d --name app-cicd -p 8081:8080 ${DOCKER_IMAGE} # Chạy container mới
+                                            docker run -d --name app-cicd-service -p 8081:8080 ${DOCKER_IMAGE} # Chạy container mới
                                             """
                 }
             }
