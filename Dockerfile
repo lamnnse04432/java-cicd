@@ -23,18 +23,6 @@ COPY src ./src
 # Xây dựng ứng dụng
 RUN mvn clean package
 
-# Bước 2: Tạo image cho ứng dụng
-#FROM openjdk:11-jre-slim
-#
-## Đặt thư mục làm việc
-#WORKDIR /app
-#
-## Sao chép file JAR từ bước build
-#COPY --from=build /app/target/*.jar app.jar
-#
-## Lệnh để chạy ứng dụng
-#CMD ["java", "-jar", "app.jar"]
-
 FROM openjdk:8-jre-alpine
 RUN mkdir /project
 COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar /project/
