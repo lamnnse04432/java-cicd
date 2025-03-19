@@ -3,7 +3,7 @@ RUN mkdir /usr/src/project
 COPY . /usr/src/project
 WORKDIR /usr/src/project
 RUN mvn dependency:go-offline
-RUN mvn clean package -DskipTests
+RUN mvn -o clean package -DskipTests
 
 FROM openjdk:8-jre-alpine
 RUN mkdir /project
