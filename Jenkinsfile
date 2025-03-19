@@ -21,18 +21,18 @@ pipeline {
                 }
             }
         }
-        stage('SSH server') {
-            steps {
-                sshagent(['ssh-remote']) {
-                                          sh """
-                                            docker pull ${DOCKER_IMAGE} # Kéo image từ Docker Registry
-                                            docker stop ${DOCKER_IMAGE} || true # Dừng container cũ nếu có
-                                            docker rm ${DOCKER_IMAGE} || true # Xóa container cũ nếu có
-                                            docker run -d --name ${DOCKER_IMAGE} -p 8080:8080 ${DOCKER_IMAGE} # Chạy container mới
-                                            """
-                }
-            }
-        }
+//         stage('SSH server') {
+//             steps {
+//                 sshagent(['ssh-remote']) {
+//                                           sh """
+//                                             docker pull ${DOCKER_IMAGE} # Kéo image từ Docker Registry
+//                                             docker stop ${DOCKER_IMAGE} || true # Dừng container cũ nếu có
+//                                             docker rm ${DOCKER_IMAGE} || true # Xóa container cũ nếu có
+//                                             docker run -d --name ${DOCKER_IMAGE} -p 8080:8080 ${DOCKER_IMAGE} # Chạy container mới
+//                                             """
+//                 }
+//             }
+//         }
     }
                 post {
                     success {
