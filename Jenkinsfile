@@ -3,8 +3,8 @@ pipeline {
     environment {
             // Đặt biến môi trường cho thông tin server
             DOCKER_IMAGE = 'lamnn1996/app-cicd:1.0.0' // Tên image và tag
-            DEPLOY_PATH = '/path/to/deploy' // Đường dẫn trên server remote
-            DOCKER_REGISTRY = 'your_docker_registry' // Địa chỉ Docker Registry
+            REMOTE_SERVER = 'root@34.172.226.205' // Đường dẫn trên server remote
+            DOCKER_CONTAINER = 'app-cicd-service' // Địa chỉ Docker Registry
     }
     stages {
         stage('Clone stage') {
@@ -24,18 +24,12 @@ pipeline {
         stage('SSH server') {
             steps {
                 sshagent(['ssh-remote']) {
-                                        sh 'ssh -o StrictHostKeyChecking=no -l root 34.172.226.205 touch test.txt'
-//                                           sh """
-//                                             ssh -o StrictHostKeyChecking=no -l root 34.172.226.205
-//                                             docker pull ${DOCKER_IMAGE} # Kéo image từ Docker Registry
-//                                             docker stop app-cicd-service || true # Dừng container cũ nếu có
-//                                             docker rm app-cicd-service || true # Xóa container cũ nếu có
-//                                             docker run -d --name app-cicd-service -p 8081:8080 ${DOCKER_IMAGE} # Chạy container mới
-//                                             echo "Current running containers:"
-//                                             docker ps
-//                                             whoami
-//                                             pwd
-//                                             """
+                                          sh """
+                                            ssh ${REMOTE_SERVER} "docker pull ${DOCKER_IMAGE} || true"
+                                            ssh ${REMOTE_SERVER} "docker stop ${DOCKER_CONTAINER} || true"
+                                            ssh ${REMOTE_SERVER} "docker rm ${DOCKER_CONTAINER} || true"
+                                            ssh ${REMOTE_SERVER} "docker run -d --name ${DOCKER_CONTAINER} -p 8081:8080 ${DOCKER_IMAGE} || true"
+                                             """
                 }
             }
         }
