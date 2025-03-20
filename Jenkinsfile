@@ -25,6 +25,7 @@ pipeline {
             steps {
                 sshagent(['ssh-remote']) {
                                           sh """
+                                            ssh -o StrictHostKeyChecking=no -l root 34.172.226.205
                                             docker pull ${DOCKER_IMAGE} # Kéo image từ Docker Registry
                                             docker stop app-cicd-service || true # Dừng container cũ nếu có
                                             docker rm app-cicd-service || true # Xóa container cũ nếu có
