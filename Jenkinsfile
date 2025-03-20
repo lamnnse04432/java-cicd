@@ -31,7 +31,6 @@ pipeline {
                                             docker run -d --name app-cicd-service -p 8081:8080 ${DOCKER_IMAGE} # Chạy container mới
                                             echo "Current running containers:"
                                             docker ps
-                                            ip addr show
                                             whoami
                                             pwd
                                             """
