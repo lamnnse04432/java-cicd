@@ -21,6 +21,7 @@ pipeline {
                 }
             }
         }
+        //
         stage('SSH server') {
             steps {
                 sshagent(['ssh-remote']) {
