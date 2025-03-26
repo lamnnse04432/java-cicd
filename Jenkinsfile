@@ -5,6 +5,9 @@ pipeline {
             DOCKER_IMAGE = 'lamnn1996/app-cicd:1.0.0' // Tên image và tag
             REMOTE_SERVER = 'root@34.172.226.205' // Đường dẫn trên server remote
             DOCKER_CONTAINER = 'app-cicd-service' // Địa chỉ Docker Registry
+            SONAR_SCANNER_HOME = 'SonarQScanner'
+            SONAR_PROJECT_KEY = 'project-cicd'
+            SONAR_TOKEN = 'app-cicd-service'
     }
     stages {
         stage('Clone stage') {
@@ -21,7 +24,21 @@ pipeline {
                 }
             }
         }
-        //
+        stage('SonarQ stage') {
+            steps {
+                withCredentitals(credentialsId: 'sonarq-id',variable: 'SONAR_TOKEN') {
+                    withSonarQubeEnv('SonarQ') {
+                                          sh """
+                                             ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                                            -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                                            -Dsonar.sources=. \
+                                            -Dsonar.host.url=http://34.28.1.150:9001 \
+                                            -Dsonar.login=${SONAR_TOKEN}
+                                             """
+                }
+                }
+            }
+        }
         stage('SSH server') {
             steps {
                 sshagent(['ssh-remote']) {
