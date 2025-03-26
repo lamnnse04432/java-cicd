@@ -7,7 +7,6 @@ pipeline {
             DOCKER_CONTAINER = 'app-cicd-service' // Địa chỉ Docker Registry
             SONAR_SCANNER_HOME = 'SonarQScanner'
             SONAR_PROJECT_KEY = 'project-cicd'
-            SONAR_TOKEN = 'app-cicd-service'
     }
     stages {
         stage('Clone stage') {
