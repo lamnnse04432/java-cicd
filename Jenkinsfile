@@ -18,7 +18,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sonarq-id', variable: 'SONAR_TOKEN')]) {
                     withSonarQubeEnv('SonarQ') {
-                        sh 'sonar-scanner -Dsonar.projectKey=your-project -Dsonar.sources=.'
+                        sh '/opt/sonar-scanner/bin/sonar-scanner -Dsonar.projectKey=project-cicd'
                         sh """
                                             which sonar-scanner || echo "SonarQube Scanner chưa được cài đặt"
                                             pwd
