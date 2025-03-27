@@ -38,18 +38,18 @@ pipeline {
                 }
             }
         }
-        stage('SSH server') {
-            steps {
-                sshagent(['ssh-remote']) {
-                                          sh """
-                                            ssh ${REMOTE_SERVER} "docker pull ${DOCKER_IMAGE} || true"
-                                            ssh ${REMOTE_SERVER} "docker stop ${DOCKER_CONTAINER} || true"
-                                            ssh ${REMOTE_SERVER} "docker rm ${DOCKER_CONTAINER} || true"
-                                            ssh ${REMOTE_SERVER} "docker run -d --name ${DOCKER_CONTAINER} -p 8081:8080 ${DOCKER_IMAGE} || true"
-                                             """
-                }
-            }
-        }
+        // stage('SSH server') {
+        //     steps {
+        //         sshagent(['ssh-remote']) {
+        //                                   sh """
+        //                                     ssh ${REMOTE_SERVER} "docker pull ${DOCKER_IMAGE} || true"
+        //                                     ssh ${REMOTE_SERVER} "docker stop ${DOCKER_CONTAINER} || true"
+        //                                     ssh ${REMOTE_SERVER} "docker rm ${DOCKER_CONTAINER} || true"
+        //                                     ssh ${REMOTE_SERVER} "docker run -d --name ${DOCKER_CONTAINER} -p 8081:8080 ${DOCKER_IMAGE} || true"
+        //                                      """
+        //         }
+        //     }
+        // }
     }
                 post {
                     success {
