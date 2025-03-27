@@ -28,6 +28,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'sonarq-id',variable: 'SONAR_TOKEN')]) {
                     withSonarQubeEnv('SonarQ') {
                                           sh """
+                                            which sonar-scanner || echo "SonarQube Scanner chưa được cài đặt"
                                             pwd
                                             ls -la
                                              ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
