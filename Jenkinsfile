@@ -14,21 +14,12 @@ pipeline {
                 git 'https://github.com/lamnnse04432/java-cicd.git'
             }
         }
-        stage('Build stage') {
+    stage('SonarQ stage') {
             steps {
-                withDockerRegistry(credentialsId: 'docker-hub',url: 'https://index.docker.io/v1/') {
-                    sh 'docker build -t lamnn1996/app-cicd:1.0.0 .'
-                    sh 'docker push lamnn1996/app-cicd:1.0.0'
-                    // some block
-                }
-            }
-        }
-        stage('SonarQ stage') {
-            steps {
-                withCredentials([string(credentialsId: 'sonarq-id',variable: 'SONAR_TOKEN')]) {
+                withCredentials([string(credentialsId: 'sonarq-id', variable: 'SONAR_TOKEN')]) {
                     withSonarQubeEnv('SonarQ') {
-                                        sh 'sonar-scanner -Dsonar.projectKey=your-project -Dsonar.sources=.'
-                                          sh """
+                        sh 'sonar-scanner -Dsonar.projectKey=your-project -Dsonar.sources=.'
+                        sh """
                                             which sonar-scanner || echo "SonarQube Scanner chưa được cài đặt"
                                             pwd
                                             ls -la
@@ -38,29 +29,38 @@ pipeline {
                                             -Dsonar.host.url=http://34.28.1.150:9001 \
                                             -Dsonar.login=${SONAR_TOKEN}
                                              """
-                }
+                    }
                 }
             }
         }
-        // stage('SSH server') {
-        //     steps {
-        //         sshagent(['ssh-remote']) {
-        //                                   sh """
-        //                                     ssh ${REMOTE_SERVER} "docker pull ${DOCKER_IMAGE} || true"
-        //                                     ssh ${REMOTE_SERVER} "docker stop ${DOCKER_CONTAINER} || true"
-        //                                     ssh ${REMOTE_SERVER} "docker rm ${DOCKER_CONTAINER} || true"
-        //                                     ssh ${REMOTE_SERVER} "docker run -d --name ${DOCKER_CONTAINER} -p 8081:8080 ${DOCKER_IMAGE} || true"
-        //                                      """
-        //         }
-        //     }
-        // }
-    }
-                post {
-                    success {
-                        echo 'Deployment successful!'
-                    }
-                    failure {
-                        echo 'Deployment failed!'
-                    }
+        stage('Build stage') {
+            steps {
+                withDockerRegistry(credentialsId: 'docker-hub', url: 'https://index.docker.io/v1/') {
+                    sh 'docker build -t lamnn1996/app-cicd:1.0.0 .'
+                    sh 'docker push lamnn1996/app-cicd:1.0.0'
                 }
+            }
+        }
+
+    // stage('SSH server') {
+    //     steps {
+    //         sshagent(['ssh-remote']) {
+    //                                   sh """
+    //                                     ssh ${REMOTE_SERVER} "docker pull ${DOCKER_IMAGE} || true"
+    //                                     ssh ${REMOTE_SERVER} "docker stop ${DOCKER_CONTAINER} || true"
+    //                                     ssh ${REMOTE_SERVER} "docker rm ${DOCKER_CONTAINER} || true"
+    //                                     ssh ${REMOTE_SERVER} "docker run -d --name ${DOCKER_CONTAINER} -p 8081:8080 ${DOCKER_IMAGE} || true"
+    //                                      """
+    //         }
+    //     }
+    // }
+    }
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
 }
