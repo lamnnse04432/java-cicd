@@ -28,6 +28,8 @@ pipeline {
                 withCredentials([string(credentialsId: 'sonarq-id',variable: 'SONAR_TOKEN')]) {
                     withSonarQubeEnv('SonarQ') {
                                           sh """
+                                            pwd
+                                            ls -la
                                              ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                                             -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
                                             -Dsonar.sources=. \
