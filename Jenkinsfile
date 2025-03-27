@@ -25,7 +25,7 @@ pipeline {
         }
         stage('SonarQ stage') {
             steps {
-                withCredentitals(credentialsId: 'sonarq-id',variable: 'SONAR_TOKEN') {
+                withCredentials(credentialsId: 'sonarq-id',variable: 'SONAR_TOKEN') {
                     withSonarQubeEnv('SonarQ') {
                                           sh """
                                              ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
