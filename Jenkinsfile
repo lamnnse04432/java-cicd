@@ -16,6 +16,7 @@ pipeline {
         }
     stage('Build stage') {
             steps {
+                sh 'mvn clean install'
                 withDockerRegistry(credentialsId: 'docker-hub', url: 'https://index.docker.io/v1/') {
                     sh 'docker build -t lamnn1996/app-cicd:1.0.0 .'
                     sh 'docker push lamnn1996/app-cicd:1.0.0'
