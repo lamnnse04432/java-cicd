@@ -5,7 +5,7 @@ pipeline {
             DOCKER_IMAGE = 'lamnn1996/app-cicd:1.0.0' // Tên image và tag
             REMOTE_SERVER = 'root@34.172.226.205' // Đường dẫn trên server remote
             DOCKER_CONTAINER = 'app-cicd-service' // Địa chỉ Docker Registry
-            SONAR_SCANNER_HOME = 'SonarQScanner'
+            SONAR_SCANNER_HOME = '/opt/sonar-scanner'
             SONAR_PROJECT_KEY = 'project-cicd'
     }
     stages {
@@ -34,6 +34,7 @@ pipeline {
                                              ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                                             -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
                                             -Dsonar.sources=. \
+                                            -Dsonar.java.binaries=target/classes \
                                             -Dsonar.host.url=http://34.28.1.150:9001 \
                                             -Dsonar.login=${SONAR_TOKEN}
                                              """
