@@ -16,7 +16,7 @@ pipeline {
         }
     stage('Test stage') {
             steps {
-                sh 'mvn clean install'
+                sh 'JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.20.1.1-2.el9.x86_64 mvn clean install'
             }
         }        
     stage('SonarQ stage') {
