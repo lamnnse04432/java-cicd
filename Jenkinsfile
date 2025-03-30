@@ -14,13 +14,9 @@ pipeline {
                 git 'https://github.com/lamnnse04432/java-cicd.git'
             }
         }
-    stage('Build stage') {
+    stage('Test stage') {
             steps {
                 sh 'mvn clean install'
-                withDockerRegistry(credentialsId: 'docker-hub', url: 'https://index.docker.io/v1/') {
-                    sh 'docker build -t lamnn1996/app-cicd:1.0.0 .'
-                    sh 'docker push lamnn1996/app-cicd:1.0.0'
-                }
             }
         }        
     stage('SonarQ stage') {
@@ -43,7 +39,14 @@ pipeline {
                 }
             }
         }
-
+    stage('Build stage') {
+            steps {
+                withDockerRegistry(credentialsId: 'docker-hub', url: 'https://index.docker.io/v1/') {
+                    sh 'docker build -t lamnn1996/app-cicd:1.0.0 .'
+                    sh 'docker push lamnn1996/app-cicd:1.0.0'
+                }
+            }
+        }        
     // stage('SSH server') {
     //     steps {
     //         sshagent(['ssh-remote']) {
