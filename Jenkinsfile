@@ -16,18 +16,14 @@ pipeline {
         }
     stage('Test stage') {
             steps {
-                sh 'mvn clean install'
+                sh 'mvn compile'
             }
         }        
     stage('SonarQ stage') {
             steps {
                 withCredentials([string(credentialsId: 'sonarq-id', variable: 'SONAR_TOKEN')]) {
                     withSonarQubeEnv('SonarQ') {
-                        sh '/opt/sonar-scanner/bin/sonar-scanner -Dsonar.projectKey=project-cicd'
-                        sh """
-                                            which sonar-scanner || echo "SonarQube Scanner chưa được cài đặt"
-                                            pwd
-                                            ls -la
+                        sh """        
                                              ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                                             -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
                                             -Dsonar.sources=. \
