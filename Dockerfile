@@ -6,7 +6,7 @@
 #RUN mvn -o clean package -DskipTests
 
 # Sử dụng image Maven chính thức
-FROM maven:3-openjdk-8 AS build
+FROM maven:3.8.6-openjdk-11 AS build
 
 # Đặt thư mục làm việc
 WORKDIR /app
@@ -23,7 +23,7 @@ COPY src ./src
 # Xây dựng ứng dụng
 RUN mvn clean package
 
-FROM openjdk:8-jre-alpine
+FROM openjdk:11-jre-slim
 RUN mkdir /project
 COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar /project/
 WORKDIR /project
