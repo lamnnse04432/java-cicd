@@ -7,7 +7,7 @@ pipeline {
             DOCKER_CONTAINER = 'app-cicd-service' // Địa chỉ Docker Registry
             SONAR_SCANNER_HOME = '/opt/sonar-scanner'
             SONAR_PROJECT_KEY = 'project-cicd'
-            JAVA11_HOME = "/usr/lib/jvm/java-11-openjdk-11.0.20.1.1-2.el9.x86_64"
+            JAVA11_HOME = '/usr/lib/jvm/java-11-openjdk-11.0.20.1.1-2.el9.x86_64'
     }
     stages {
         stage('Clone stage') {
@@ -15,15 +15,16 @@ pipeline {
                 git 'https://github.com/lamnnse04432/java-cicd.git'
             }
         }
-    stage('Test stage') {
+        stage('Test stage') {
             steps {
                     script {
-          withEnv(["JAVA_HOME=${env.JAVA11_HOME}", "PATH+JAVA=${env.JAVA11_HOME}/bin"]) {
-            sh 'mvn clean compile'
-          }
+                    withEnv(["JAVA_HOME=${env.JAVA11_HOME}", "PATH+JAVA=${env.JAVA11_HOME}/bin"]) {
+                        sh 'mvn clean compile'
+                    }
                     }
             }
-    stage('SonarQ stage') {
+        }
+        stage('SonarQ stage') {
             steps {
                 withCredentials([string(credentialsId: 'sonarq-id', variable: 'SONAR_TOKEN')]) {
                     withSonarQubeEnv('SonarQ') {
@@ -38,15 +39,15 @@ pipeline {
                     }
                 }
             }
-    }
-    stage('Build stage') {
+        }
+        stage('Build stage') {
             steps {
                 withDockerRegistry(credentialsId: 'docker-hub', url: 'https://index.docker.io/v1/') {
                     sh 'docker build -t lamnn1996/app-cicd:1.0.0 .'
                     sh 'docker push lamnn1996/app-cicd:1.0.0'
                 }
             }
-    }
+        }
     // stage('SSH server') {
     //     steps {
     //         sshagent(['ssh-remote']) {
@@ -68,4 +69,4 @@ pipeline {
             echo 'Deployment failed!'
         }
     }
-    }
+}
